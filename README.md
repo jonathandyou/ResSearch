@@ -1,5 +1,9 @@
 # ✨ Aura — Luxury Fine-Dining Reservation Monitoring
 
+<p align="center">
+  <img src="assets/screenshots/hero.png" alt="Aura Hero Image" width="800">
+</p>
+
 A premium, editorial-quality web platform that monitors the world's most exclusive restaurant reservation platforms for cancellation openings. Built with **vanilla HTML, CSS, and JavaScript** — no frameworks.
 
 ![Aura Hero](https://img.shields.io/badge/Status-Live-gold?style=flat-square) ![HTML](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white) ![CSS](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white) ![JS](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
@@ -9,6 +13,10 @@ A premium, editorial-quality web platform that monitors the world's most exclusi
 ## 🍽️ Overview
 
 Aura helps users discover rare tables at Michelin-starred restaurants by monitoring reservation platforms for newly available slots caused by cancellations. The design language is inspired by the branding of elite fine-dining establishments — elegant, restrained, and luxurious.
+
+<p align="center">
+  <img src="assets/screenshots/results.png" alt="Reservation Results UI" width="600">
+</p>
 
 ### Key Features
 
@@ -30,6 +38,10 @@ Aura helps users discover rare tables at Michelin-starred restaurants by monitor
 | **Background** | Warm Ivory `#F9F7F2` |
 | **Text** | Deep Charcoal `#1A1A1A` |
 | **Accent** | Champagne Gold `#C5A059` |
+
+<p align="center">
+  <img src="assets/screenshots/restaurants.png" alt="Curated Network Restaurant Cards" width="800">
+</p>
 
 ---
 
@@ -71,6 +83,10 @@ ResSearch/
 ## 🤖 Chatbot Configuration
 
 The Aura Concierge chatbot uses the **Google Gemini API** with a multi-model fallback chain:
+
+<p align="center">
+  <img src="assets/screenshots/chatbot.png" alt="Gemini-powered AI Concierge Chatbot" width="400">
+</p>
 
 1. `gemini-2.0-flash` → `gemini-1.5-flash` → `gemini-pro`
 2. Retries on 429 (rate limit) with a 1.5s delay

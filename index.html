@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura — Luxury Reservation Monitoring</title>
+    <meta name="description" content="Discover rare tables as they reappear. Monitor sought-after reservations at the world's most exclusive dining destinations.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ═══ HEADER ═══ -->
+    <header id="header">
+        <div class="container">
+            <a href="#" class="logo">AURA</a>
+            <nav class="nav-links" role="navigation" aria-label="Main navigation">
+                <a href="#home">Home</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#restaurants">Restaurants</a>
+                <a href="#availability">Availability</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <div class="nav-cta-wrapper">
+                <a href="#availability" class="nav-cta">Explore Availability</a>
+            </div>
+            <button class="mobile-toggle" id="mobile-toggle" aria-label="Open navigation menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- ═══ MOBILE NAV ═══ -->
+    <div class="mobile-nav" id="mobile-nav" role="dialog" aria-label="Mobile navigation">
+        <button class="mobile-close" id="mobile-close" aria-label="Close navigation menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        <a href="#home">Home</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#restaurants">Restaurants</a>
+        <a href="#availability">Availability</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <main>
+
+        <!-- ═══ HERO ═══ -->
+        <section class="hero" id="home">
+            <div class="hero-bg">
+                <img src="assets/hero.png" alt="Elegant fine-dining restaurant interior">
+            </div>
+            <div class="hero-overlay"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <span class="section-label reveal reveal-delay-1">Reservation Intelligence</span>
+                    <h1 class="reveal reveal-delay-2">Discover rare tables as they <em>reappear.</em></h1>
+                    <p class="reveal reveal-delay-3">Aura monitors cancellation windows at the world's most exclusive dining destinations — so sought-after tables arrive to you the moment they surface.</p>
+                    <div class="hero-actions reveal reveal-delay-4">
+                        <a href="#availability" class="btn btn-primary">Begin Monitoring</a>
+                        <a href="#how-it-works" class="btn btn-outline">Our Process</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-scroll">
+                <span>Scroll</span>
+                <svg width="12" height="20" viewBox="0 0 12 20" fill="none" stroke="currentColor" stroke-width="1">
+                    <rect x="1" y="1" width="10" height="18" rx="5"/>
+                    <circle cx="6" cy="6" r="1.5" fill="currentColor"/>
+                </svg>
+            </div>
+        </section>
+
+        <!-- ═══ HOW IT WORKS ═══ -->
+        <section class="how-section" id="how-it-works">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-label">The Aura Method</span>
+                    <h2 class="section-title">A refined approach to availability</h2>
+                    <p class="section-subtitle">Three steps to secure the world's most coveted tables.</p>
+                </div>
+                <div class="how-grid">
+                    <div class="how-step reveal reveal-delay-1">
+                        <span class="how-number">01</span>
+                        <h3>Selection</h3>
+                        <p>Indicate your preferences across our curated network of global fine-dining platforms and Michelin-starred portals.</p>
+                    </div>
+                    <div class="how-step reveal reveal-delay-3">
+                        <span class="how-number">02</span>
+                        <h3>Monitoring</h3>
+                        <p>Our algorithms discreetly scan for cancellation windows and sudden openings in real-time, around the clock.</p>
+                    </div>
+                    <div class="how-step reveal reveal-delay-5">
+                        <span class="how-number">03</span>
+                        <h3>Securing</h3>
+                        <p>Receive immediate insight into reappeared tables, allowing you to secure your seat the moment it surfaces.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ SEARCH / MONITORING INTERFACE ═══ -->
+        <section class="search-section" id="availability">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-label">Reservation Search</span>
+                    <h2 class="section-title">Set Your Preferences</h2>
+                    <p class="section-subtitle">Select your desired destination and timing. We'll handle the vigil.</p>
+                </div>
+
+                <div class="search-form-card reveal">
+                    <form id="search-form">
+                        <div class="search-grid">
+                            <div class="form-group">
+                                <label for="restaurant">Restaurant or Location</label>
+                                <input type="text" id="restaurant" placeholder="e.g. Eleven Madison Park, New York" required aria-required="true">
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Desired Date</label>
+                                <input type="date" id="date" required aria-required="true">
+                            </div>
+                            <div class="form-group">
+                                <label for="time">Preferred Time</label>
+                                <select id="time" aria-label="Select preferred time range">
+                                    <option value="any">Any Time</option>
+                                    <option value="lunch">Lunch — 12:00 to 14:00</option>
+                                    <option value="dinner">Dinner — 18:00 to 21:00</option>
+                                    <option value="late">Late Evening — After 21:00</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="guests">Party Size</label>
+                                <select id="guests" aria-label="Select party size">
+                                    <option value="2">2 Guests</option>
+                                    <option value="3">3 Guests</option>
+                                    <option value="4">4 Guests</option>
+                                    <option value="5">5 Guests</option>
+                                    <option value="6">6+ Guests</option>
+                                </select>
+                            </div>
+                            <div class="search-submit">
+                                <button type="submit" class="btn btn-primary" id="search-btn">Check Openings</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Results Injected Dynamically -->
+                <div id="results-area" class="results-section" style="display: none;">
+                    <div class="results-header">
+                        <span class="results-count" id="results-count"></span>
+                        <div class="results-sort">
+                            <button class="sort-btn active" data-sort="relevance">Relevance</button>
+                            <button class="sort-btn" data-sort="date">Date</button>
+                            <button class="sort-btn" data-sort="status">Status</button>
+                        </div>
+                    </div>
+                    <div class="results-grid" id="results-grid"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ FEATURED RESTAURANTS / CURATED NETWORK ═══ -->
+        <section class="featured-section" id="restaurants">
+            <div class="container">
+                <div class="featured-header reveal">
+                    <span class="section-label">Curated Network</span>
+                    <h2 class="section-title" style="color: var(--white);">Restaurants We Monitor</h2>
+                    <p class="section-subtitle">A selection from our global portfolio of the world's most coveted dining destinations.</p>
+                </div>
+
+                <!-- Restaurant Showcase Grid -->
+                <div class="restaurant-grid">
+                    <div class="restaurant-card reveal reveal-delay-1">
+                        <div class="restaurant-card-header">
+                            <span class="restaurant-stars">★ ★ ★</span>
+                            <span class="restaurant-platform">Resy</span>
+                        </div>
+                        <h3 class="restaurant-name">Eleven Madison Park</h3>
+                        <p class="restaurant-location">New York, United States</p>
+                        <p class="restaurant-cuisine">Contemporary American · Tasting Menu</p>
+                        <div class="restaurant-footer">
+                            <span class="restaurant-tag">Actively Monitored</span>
+                        </div>
+                    </div>
+
+                    <div class="restaurant-card reveal reveal-delay-2">
+                        <div class="restaurant-card-header">
+                            <span class="restaurant-stars">★ ★ ★</span>
+                            <span class="restaurant-platform">Tock</span>
+                        </div>
+                        <h3 class="restaurant-name">Noma</h3>
+                        <p class="restaurant-location">Copenhagen, Denmark</p>
+                        <p class="restaurant-cuisine">New Nordic · Seasonal Terroir</p>
+                        <div class="restaurant-footer">
+                            <span class="restaurant-tag">Actively Monitored</span>
+                        </div>
+                    </div>
+
+                    <div class="restaurant-card reveal reveal-delay-3">
+                        <div class="restaurant-card-header">
+                            <span class="restaurant-stars">★ ★ ★</span>
+                            <span class="restaurant-platform">Direct Portal</span>
+                        </div>
+                        <h3 class="restaurant-name">Osteria Francescana</h3>
+                        <p class="restaurant-location">Modena, Italy</p>
+                        <p class="restaurant-cuisine">Contemporary Italian · Artisan</p>
+                        <div class="restaurant-footer">
+                            <span class="restaurant-tag">Actively Monitored</span>
+                        </div>
+                    </div>
+
+                    <div class="restaurant-card reveal reveal-delay-4">
+                        <div class="restaurant-card-header">
+                            <span class="restaurant-stars">★ ★ ★</span>
+                            <span class="restaurant-platform">SevenRooms</span>
+                        </div>
+                        <h3 class="restaurant-name">Geranium</h3>
+                        <p class="restaurant-location">Copenhagen, Denmark</p>
+                        <p class="restaurant-cuisine">Modern Nordic · Biodynamic</p>
+                        <div class="restaurant-footer">
+                            <span class="restaurant-tag">Actively Monitored</span>
+                        </div>
+                    </div>
+
+                    <div class="restaurant-card reveal reveal-delay-1">
+                        <div class="restaurant-card-header">
+                            <span class="restaurant-stars">★ ★ ★</span>
+                            <span class="restaurant-platform">Tock</span>
+                        </div>
+                        <h3 class="restaurant-name">Atelier Crenn</h3>
+                        <p class="restaurant-location">San Francisco, United States</p>
+                        <p class="restaurant-cuisine">Poetic Culinaria · French Inspired</p>
+                        <div class="restaurant-footer">
+                            <span class="restaurant-tag">Actively Monitored</span>
+                        </div>
+                    </div>
+
+                    <div class="restaurant-card reveal reveal-delay-2">
+                        <div class="restaurant-card-header">
+                            <span class="restaurant-stars">★ ★</span>
+                            <span class="restaurant-platform">Direct Portal</span>
+                        </div>
+                        <h3 class="restaurant-name">Den</h3>
+                        <p class="restaurant-location">Tokyo, Japan</p>
+                        <p class="restaurant-cuisine">Innovative Japanese · Kaiseki</p>
+                        <div class="restaurant-footer">
+                            <span class="restaurant-tag">Actively Monitored</span>
+                        </div>
+                    </div>
+
+                    <div class="restaurant-card reveal reveal-delay-3">
+                        <div class="restaurant-card-header">
+                            <span class="restaurant-stars">★ ★ ★</span>
+                            <span class="restaurant-platform">Resy</span>
+                        </div>
+                        <h3 class="restaurant-name">Le Bernardin</h3>
+                        <p class="restaurant-location">New York, United States</p>
+                        <p class="restaurant-cuisine">French Seafood · Haute Cuisine</p>
+                        <div class="restaurant-footer">
+                            <span class="restaurant-tag">Actively Monitored</span>
+                        </div>
+                    </div>
+
+                    <div class="restaurant-card reveal reveal-delay-4">
+                        <div class="restaurant-card-header">
+                            <span class="restaurant-stars">★ ★ ★</span>
+                            <span class="restaurant-platform">OpenTable</span>
+                        </div>
+                        <h3 class="restaurant-name">The Ledbury</h3>
+                        <p class="restaurant-location">London, United Kingdom</p>
+                        <p class="restaurant-cuisine">Modern European · Seasonal</p>
+                        <div class="restaurant-footer">
+                            <span class="restaurant-tag">Actively Monitored</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Platform Partners Strip -->
+                <div class="platform-strip reveal">
+                    <p class="platform-strip-label">Integrated Platforms</p>
+                    <div class="platform-logos">
+                        <span class="platform-logo">RESY</span>
+                        <span class="platform-divider"></span>
+                        <span class="platform-logo">TOCK</span>
+                        <span class="platform-divider"></span>
+                        <span class="platform-logo">SEVENROOMS</span>
+                        <span class="platform-divider"></span>
+                        <span class="platform-logo">OPENTABLE</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ BENEFITS / VALUE PROPOSITION ═══ -->
+        <section class="benefits-section">
+            <div class="container">
+                <div class="benefits-layout">
+                    <div class="benefits-text reveal">
+                        <span class="section-label">The Aura Advantage</span>
+                        <h2 class="section-title">Effortless access to extraordinary dining</h2>
+                        <p class="section-subtitle">A premium monitoring experience designed for discerning guests who value their time.</p>
+
+                        <div style="margin-top: 2rem;">
+                            <div class="benefit-item">
+                                <div class="benefit-icon">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                </div>
+                                <div class="benefit-content">
+                                    <h4>Discreet Monitoring</h4>
+                                    <p>Our algorithms work silently, scanning platforms without disruption or intrusion.</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="benefit-icon">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                </div>
+                                <div class="benefit-content">
+                                    <h4>Time-Saving Discovery</h4>
+                                    <p>No more repeatedly refreshing pages. We surface the opportunity the instant it appears.</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="benefit-icon">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                </div>
+                                <div class="benefit-content">
+                                    <h4>Curated Visibility</h4>
+                                    <p>Only the finest establishments. We maintain strict selection criteria for our network.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="benefits-visual reveal reveal-delay-2">
+                        <div class="benefits-quote">
+                            <blockquote>"Reservations are the first course of every great dining story. Aura ensures yours begins with effortless grace."</blockquote>
+                            <cite>— Aura Editorial</cite>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ TESTIMONIALS ═══ -->
+        <section class="testimonials-section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-label">Guest Impressions</span>
+                    <h2 class="section-title">What our members say</h2>
+                    <p class="section-subtitle">Reflections from discerning diners who trust Aura for their most meaningful meals.</p>
+                </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card reveal reveal-delay-1">
+                        <div class="testimonial-stars">★ ★ ★ ★ ★</div>
+                        <p class="testimonial-text">"I secured a table at a two-month-waitlisted restaurant in Copenhagen within three days. Aura found a cancellation I would have never caught myself."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">S</div>
+                            <div class="author-info">
+                                <span class="name">Sophia Reinhardt</span>
+                                <span class="title">Private Collector, Zurich</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card reveal reveal-delay-2">
+                        <div class="testimonial-stars">★ ★ ★ ★ ★</div>
+                        <p class="testimonial-text">"Elegant, understated, and remarkably effective. The interface itself feels like dining at a Michelin-starred restaurant — nothing unnecessary."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">J</div>
+                            <div class="author-info">
+                                <span class="name">James Hartwell</span>
+                                <span class="title">Managing Director, London</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card reveal reveal-delay-3">
+                        <div class="testimonial-stars">★ ★ ★ ★ ★</div>
+                        <p class="testimonial-text">"We use Aura to plan memorable client dinners. It's become indispensable — an invisible concierge that never sleeps."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">M</div>
+                            <div class="author-info">
+                                <span class="name">Marie-Claire Dubois</span>
+                                <span class="title">Partner, Paris</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="#" class="logo">AURA</a>
+                    <p>Discover rare tables the moment they reappear. Premium reservation intelligence for discerning diners worldwide.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Navigate</h4>
+                    <a href="#home">Home</a>
+                    <a href="#how-it-works">How It Works</a>
+                    <a href="#restaurants">Restaurants</a>
+                    <a href="#availability">Availability</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <a href="#">About Aura</a>
+                    <a href="#">Concierge</a>
+                    <a href="#">Partnerships</a>
+                    <a href="#">Press</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <a href="#">Help Centre</a>
+                    <a href="#">Contact</a>
+                    <a href="#">FAQ</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="copyright">&copy; 2026 Aura Monitors. All rights reserved.</span>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ═══ CHATBOT ═══ -->
+    <button class="chatbot-launcher" id="chat-launcher" aria-label="Open concierge chat">
+        <svg viewBox="0 0 24 24">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+    </button>
+
+    <div class="chat-panel" id="chat-panel" role="dialog" aria-label="Concierge chat">
+        <div class="chat-header">
+            <div class="chat-header-dot"></div>
+            <div>
+                <h3>Aura Concierge</h3>
+                <p>Available now</p>
+            </div>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message message-bot">Good evening. How may I assist you with your reservation search today?</div>
+        </div>
+        <div class="chat-prompts" id="chat-prompts">
+            <button class="prompt-btn" data-prompt="How do I monitor reservations?">How monitoring works</button>
+            <button class="prompt-btn" data-prompt="Which restaurant sites are checked?">Supported platforms</button>
+            <button class="prompt-btn" data-prompt="How do cancellations appear?">Cancellation timing</button>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chat-input" placeholder="Inquire here..." aria-label="Chat message input">
+            <button class="chat-send-btn" id="chat-send" aria-label="Send message">Send</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

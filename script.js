@@ -391,10 +391,12 @@ async function callWebhook(userMessage, sessionId) {
     const data = await response.json();
     
     // Check multiple common n8n response structures
+    if (data.reply) return data.reply;
     if (data.output) return data.output;
     if (data.message) return data.message;
     if (data.text) return data.text;
     if (data.response) return data.response;
+    if (Array.isArray(data) && data[0]?.reply) return data[0].reply;
     if (Array.isArray(data) && data[0]?.output) return data[0].output;
     
     // If we can't find a recognized exact key, just return the raw response stringified or a fallback

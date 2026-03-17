@@ -273,11 +273,8 @@ function initSortControls() {
 /* ─────────────────────────────────────────
    7. CHATBOT — Powered by Gemini API
    ───────────────────────────────────────── */
-// Obfuscated to prevent auto-revocation by public scanners
-const _k1 = 'AIzaSyDnepNUi6';
-const _k2 = 'uieWh8fgejLYNL';
-const _k3 = 'AuEUiOnULsc';
-const GEMINI_API_KEY = _k1 + _k2 + _k3;
+// This placeholder is automatically replaced by GitHub Actions during deployment
+const GEMINI_API_KEY = '__GEMINI_API_KEY_PLACEHOLDER__';
 const GEMINI_MODELS = [
     'gemini-2.0-flash',
     'gemini-1.5-flash',

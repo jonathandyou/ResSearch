@@ -271,40 +271,11 @@ function initSortControls() {
 }
 
 /* ─────────────────────────────────────────
-   7. CHATBOT — Powered by Gemini API
+   7. CHATBOT — Powered by n8n Webhook
    ───────────────────────────────────────── */
-// This placeholder is automatically replaced by GitHub Actions during deployment
-const GEMINI_API_KEY = '__GEMINI_API_KEY_PLACEHOLDER__';
-const GEMINI_MODELS = [
-    'gemini-2.0-flash',
-    'gemini-1.5-flash',
-    'gemini-pro'
-];
+const WEBHOOK_URL = 'https://jonathandyou.app.n8n.cloud/webhook/ai-chatbot';
 
-function getGeminiUrl(model) {
-    return `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
-}
-
-const SYSTEM_PROMPT = `You are the Aura Concierge — a refined, knowledgeable assistant for a luxury fine-dining reservation monitoring platform called Aura.
-
-Your personality:
-- Speak with the elegance and discretion of a Michelin-starred maître d'
-- Be warm yet professional, polished yet approachable
-- Use sophisticated but never pretentious language
-- Keep responses concise (2-4 sentences maximum) — brevity is elegance
-- Never use emojis, bullet points, or markdown formatting — respond in flowing prose
-
-About Aura:
-- Aura monitors top reservation platforms (Resy, Tock, SevenRooms, OpenTable) and bespoke restaurant portals for cancellation openings
-- Users set their restaurant and date preferences, and Aura scans for newly available tables caused by cancellations
-- Cancellations typically surface 24–48 hours before the reservation date
-- Aura covers Michelin-starred and world-renowned fine-dining establishments globally
-- The platform offers a complimentary discovery tier and a premium membership (details coming soon)
-- Aura does NOT make reservations directly — it surfaces availability so guests can act swiftly
-
-If asked about things outside of dining, reservations, or the Aura platform, gently redirect the conversation back to how you can assist with their dining experience.`;
-
-// Conversation history for context
+// Conversation history for context (n8n might use this or handle memory itself)
 let conversationHistory = [];
 
 function initChatbot() {
@@ -315,6 +286,9 @@ function initChatbot() {
     const sendBtn = document.getElementById('chat-send');
     const promptBtns = document.querySelectorAll('.prompt-btn');
     const promptsContainer = document.getElementById('chat-prompts');
+
+    // Generate a simple session ID to help n8n maintain conversation memory if needed
+    const sessionId = Math.random().toString(36).substring(2, 15);
 
     let isSending = false;
 
@@ -351,19 +325,23 @@ function initChatbot() {
         typing.style.opacity = '0.5';
 
         // Add user message to history
-        conversationHistory.push({ role: 'user', parts: [{ text }] });
+        conversationHistory.push({ role: 'user', content: text });
 
         try {
-            const response = await callGemini(text);
+            const response = await callWebhook(text, sessionId);
             typing.remove();
             addMessage(response);
 
             // Add assistant response to history
-            conversationHistory.push({ role: 'model', parts: [{ text: response }] });
+            conversationHistory.push({ role: 'assistant', content: response });
         } catch (err) {
-            console.error('Gemini API error:', err);
+            console.error('Webhook error:', err);
             typing.remove();
-            addMessage('My apologies — I am momentarily unable to connect. Please try your inquiry again shortly.');
+            
+            // If the webhook fails, use the elegant local fallback
+            const fallbackResponse = getLocalFallback(text);
+            addMessage(fallbackResponse);
+            conversationHistory.push({ role: 'assistant', content: fallbackResponse });
         }
 
         isSending = false;
@@ -390,64 +368,43 @@ function initChatbot() {
     }
 }
 
-async function callGemini(userMessage) {
+async function callWebhook(userMessage, sessionId) {
     const requestBody = {
-        system_instruction: {
-            parts: [{ text: SYSTEM_PROMPT }]
-        },
-        contents: [
-            ...conversationHistory
-        ],
-        generationConfig: {
-            temperature: 0.7,
-            topP: 0.9,
-            maxOutputTokens: 200
-        }
+        message: userMessage,
+        sessionId: sessionId,
+        history: conversationHistory
     };
 
-    // Try each model in sequence
-    for (const model of GEMINI_MODELS) {
-        try {
-            const result = await attemptGeminiCall(getGeminiUrl(model), requestBody);
-            if (result) return result;
-        } catch (err) {
-            console.warn(`Model ${model} failed:`, err.message);
-            // If rate limited, wait briefly before trying next model
-            if (err.status === 429) {
-                await new Promise(r => setTimeout(r, 1500));
-            }
-            continue;
-        }
-    }
-
-    // All models failed — use local fallback
-    return getLocalFallback(userMessage);
-}
-
-async function attemptGeminiCall(url, body) {
-    const response = await fetch(url, {
+    const response = await fetch(WEBHOOK_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
     });
 
     if (!response.ok) {
-        const err = new Error(`API returned ${response.status}`);
-        err.status = response.status;
-        throw err;
+        throw new Error(`Webhook returned ${response.status}`);
     }
 
     const data = await response.json();
-    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-
-    if (!text) {
-        throw new Error('No text in response');
-    }
-
-    return text.trim();
+    
+    // Check multiple common n8n response structures
+    if (data.output) return data.output;
+    if (data.message) return data.message;
+    if (data.text) return data.text;
+    if (data.response) return data.response;
+    if (Array.isArray(data) && data[0]?.output) return data[0].output;
+    
+    // If we can't find a recognized exact key, just return the raw response stringified or a fallback
+    if (typeof data === 'string') return data;
+    
+    console.warn("Unrecognized webhook response format:", data);
+    throw new Error('Unrecognized response format from webhook');
 }
 
-// Elegant local fallback when API is unavailable
+// Elegant local fallback when webhook is unavailable
 function getLocalFallback(query) {
     const q = query.toLowerCase();
 

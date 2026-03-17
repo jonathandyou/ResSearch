@@ -1394,6 +1394,7 @@ footer {
     font-size: 0.85rem;
     line-height: 1.5;
     animation: messageIn 0.3s var(--ease-out);
+    white-space: pre-wrap;
 }
 
 @keyframes messageIn {

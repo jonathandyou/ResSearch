@@ -273,10 +273,18 @@ function initSortControls() {
 /* ─────────────────────────────────────────
    7. CHATBOT — Powered by n8n Webhook
    ───────────────────────────────────────── */
+/* ─────────────────────────────────────────
+   7. CHATBOT — Powered by n8n Webhook
+   ───────────────────────────────────────── */
 const WEBHOOK_URL = 'https://jonathandyou.app.n8n.cloud/webhook/ai-chatbot';
+const VOICE_WEBHOOK_URL = 'https://jonathandyou.app.n8n.cloud/webhook/create-web-call';
+const RETELL_AGENT_ID = 'agent_1d98aa7ef490d622c2c7f08f09';
 
 // Conversation history for context (n8n might use this or handle memory itself)
 let conversationHistory = [];
+let retellClient = null;
+let callTimer = null;
+let startTime = 0;
 
 function initChatbot() {
     const launcher = document.getElementById('chat-launcher');
@@ -286,17 +294,30 @@ function initChatbot() {
     const sendBtn = document.getElementById('chat-send');
     const promptBtns = document.querySelectorAll('.prompt-btn');
     const promptsContainer = document.getElementById('chat-prompts');
+    
+    // Tab Elements
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.chat-tab-content');
+    const startVoiceBtn = document.getElementById('start-voice');
+    const stopVoiceBtn = document.getElementById('stop-voice');
+    const voiceModal = document.getElementById('voice-modal');
+    const voiceStatus = document.getElementById('voice-status');
+    const voiceTimer = document.getElementById('voice-timer');
+    const voiceVisualizer = document.getElementById('voice-visualizer');
 
     // Generate a simple session ID to help n8n maintain conversation memory if needed
     const sessionId = Math.random().toString(36).substring(2, 15);
 
     let isSending = false;
 
-    // Toggle
+    // Toggle Chat Panel
     launcher.addEventListener('click', () => {
         const isOpen = panel.classList.toggle('active');
         launcher.classList.toggle('active', isOpen);
-        if (isOpen) input.focus();
+        if (isOpen) {
+            const activeTab = document.querySelector('.tab-btn.active').dataset.tab;
+            if (activeTab === 'chat') input.focus();
+        }
     });
 
     // Close on outside click
@@ -309,7 +330,102 @@ function initChatbot() {
         }
     });
 
-    // Send message
+    // Tab Switching
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const target = btn.dataset.tab;
+            
+            tabBtns.forEach(b => b.classList.toggle('active', b === btn));
+            tabContents.forEach(c => {
+                c.classList.toggle('active', c.id === `${target}-tab-content`);
+            });
+            
+            if (target === 'chat') input.focus();
+        });
+    });
+
+    // --- Voice Logic ---
+    const initRetell = () => {
+        if (retellClient || !window.RetellWebClient) return;
+        
+        retellClient = new window.RetellWebClient();
+
+        retellClient.on("call_started", () => {
+            voiceStatus.textContent = "Speaking with Aura...";
+            startTime = Date.now();
+            startTimer();
+        });
+
+        retellClient.on("call_ended", () => {
+            stopVoiceUI();
+        });
+
+        retellClient.on("agent_start_talking", () => {
+            voiceVisualizer.classList.add('ripple-active');
+        });
+
+        retellClient.on("agent_stop_talking", () => {
+            voiceVisualizer.classList.remove('ripple-active');
+        });
+
+        retellClient.on("error", (error) => {
+            console.error("Retell error:", error);
+            stopVoiceUI();
+            alert("Connection error. Please try again.");
+        });
+    };
+
+    const startTimer = () => {
+        callTimer = setInterval(() => {
+            const now = Date.now();
+            const diff = Math.floor((now - startTime) / 1000);
+            const m = Math.floor(diff / 60).toString().padStart(2, '0');
+            const s = (diff % 60).toString().padStart(2, '0');
+            voiceTimer.textContent = `${m}:${s}`;
+        }, 1000);
+    };
+
+    const stopVoiceUI = () => {
+        clearInterval(callTimer);
+        voiceModal.classList.remove('active');
+        voiceVisualizer.classList.remove('ripple-active');
+        voiceTimer.textContent = "00:00";
+    };
+
+    startVoiceBtn.addEventListener('click', async () => {
+        initRetell();
+        voiceModal.classList.add('active');
+        voiceStatus.textContent = "Perfecting connection...";
+        
+        try {
+            // Securely create web call via n8n
+            const response = await fetch(VOICE_WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ agent_id: RETELL_AGENT_ID })
+            });
+
+            if (!response.ok) throw new Error("Failed to create call");
+            
+            const data = await response.json();
+            const accessToken = data.access_token || data.accessToken || (Array.isArray(data) ? data[0].access_token : null);
+
+            if (!accessToken) throw new Error("No access token received");
+
+            await retellClient.startCall({ accessToken });
+        } catch (err) {
+            console.error("Voice call initiation failed:", err);
+            stopVoiceUI();
+            alert("Aura Concierge is currently handling other guests. Please try again in a moment.");
+        }
+    });
+
+    stopVoiceBtn.addEventListener('click', () => {
+        if (retellClient) retellClient.stopCall();
+        stopVoiceUI();
+    });
+
+    // --- Chat Logic ---
     const send = async (text) => {
         if (!text.trim() || isSending) return;
         isSending = true;

@@ -277,7 +277,7 @@ function initSortControls() {
    7. CHATBOT — Powered by n8n Webhook
    ───────────────────────────────────────── */
 const WEBHOOK_URL = 'https://jonathandyou.app.n8n.cloud/webhook/ai-chatbot';
-const VOICE_WEBHOOK_URL = 'https://jonathandyou.app.n8n.cloud/webhook/create-web-call';
+const VOICE_WEBHOOK_URL = 'https://jonathandyou.app.n8n.cloud/webhook/retell-create-call';
 const RETELL_AGENT_ID = 'agent_1d98aa7ef490d622c2c7f08f09';
 
 // Conversation history for context (n8n might use this or handle memory itself)
